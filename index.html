@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#172b4d">
-<title>Affluence — Les courses sans la foule</title>
+<title>FouleZen — Les courses sans la foule</title>
 <style>
 :root{--navy:#172b4d;--green:#16834a;--bg:#f4f7f9;--muted:#64748b;--line:#e3e9ef;--white:#fff}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18283f}
@@ -32,7 +32,7 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;border-top:1p
 </style>
 </head>
 <body>
-<header><div class="brandrow"><div><div class="brand">Affluence</div><div class="tagline">Les courses sans la foule</div></div><div class="cart">🛒</div></div></header>
+<header><div class="brandrow"><div><div class="brand">FouleZen</div><div class="tagline">Les courses sans la foule</div></div><div class="cart">🛒</div></div></header>
 <main>
 <nav class="tabs" aria-label="Navigation">
 <button class="tab active" data-tab="search"><span>🗺️</span>Carte</button>
@@ -52,9 +52,9 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;border-top:1p
 <section id="favorites" hidden><h1>Mes magasins favoris ❤️</h1><div id="favoritelist"></div></section>
 <section id="report" hidden><h1>Signaler l'affluence</h1><div class="card"><div class="small">MAGASIN SÉLECTIONNÉ</div><div class="storename" id="selectedname">Carrefour Sarcelles</div><label class="fieldlabel" for="reportstore">Choisir un magasin</label><select id="reportstore"></select></div><h2>Combien y a-t-il de monde ?</h2><div class="levels" id="levelbuttons"></div><button class="btn" id="sendreport">Envoyer mon signalement</button><div class="small" style="margin-top:10px">Merci de signaler la situation réelle. Les signalements abusifs peuvent être écartés.</div></section>
 <section id="collection" hidden><h1>Ma collection 🏆</h1><div class="statbox"><div class="small">TON NIVEAU</div><strong id="rank">🥉 Explorateur</strong><div class="sub" id="points">0 points · 0 signalement</div></div><h2>Émoticônes débloquées</h2><div class="badges" id="badgegrid"></div><h2>Choisis jusqu'à 5 émoticônes à afficher</h2><div class="pills" id="badgechoices"></div><div class="small">Les autres membres ne verront que les émoticônes que tu as choisies d'afficher.</div></section>
-<section id="profile" hidden><h1>Mon profil public</h1><div class="profile"><div class="avatar">👤</div><div class="storename" style="margin-top:7px">Membre Affluence</div><div class="sub">Mes émoticônes affichées</div><div class="publicbadges" id="publicbadges"></div></div><div class="notice">Ta collection complète reste privée. Seules les émoticônes que tu sélectionnes dans l'onglet Collection sont visibles sur ton profil.</div></section>
+<section id="profile" hidden><h1>Mon profil public</h1><div class="profile"><div class="avatar">👤</div><div class="storename" style="margin-top:7px">Membre FouleZen</div><div class="sub">Mes émoticônes affichées</div><div class="publicbadges" id="publicbadges"></div></div><div class="notice">Ta collection complète reste privée. Seules les émoticônes que tu sélectionnes dans l'onglet Collection sont visibles sur ton profil.</div></section>
 </main>
-<footer>AFFLUENCE · PROTOTYPE WEB · DONNÉES DE DÉMONSTRATION</footer><div class="toast" id="toast"></div>
+<footer>FOULEZEN · VERSION DE TEST · DONNÉES DE DÉMONSTRATION</footer><div class="toast" id="toast"></div>
 <script>
 const stores=[
 {id:"1",name:"Carrefour Sarcelles (démo)",lat:48.995,lon:2.379,brand:"Carrefour",city:"Sarcelles",dep:"95",level:"Modéré",wait:"5–10 min"},
