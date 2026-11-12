@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#172b4d">
+<title>FouleZen — Les courses sans la foule</title>
+<style>
+:root{--navy:#172b4d;--green:#16834a;--bg:#f4f7f9;--muted:#64748b;--line:#e3e9ef;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#18283f}
+header{background:var(--navy);color:white;padding:18px 18px 16px;position:sticky;top:0;z-index:5}
+.brandrow{display:flex;align-items:center;justify-content:space-between}.brand{font-size:25px;font-weight:850;letter-spacing:-.6px}.tagline{font-size:12px;color:#d5e1f2;margin-top:3px}.cart{font-size:27px}
+main{max-width:650px;margin:auto;padding:16px 14px 100px}.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;background:white;padding:8px;border-radius:16px;box-shadow:0 2px 12px #152b4610;margin-bottom:18px}
+.tab{border:0;background:transparent;border-radius:11px;padding:8px 2px;color:#65758b;font-size:10px;font-weight:650}.tab span{display:block;font-size:20px;margin-bottom:3px}.tab.active{background:#eaf4ef;color:#176b45}.tab{cursor:pointer;touch-action:manipulation}.btn,.heart,.level,.badgepick{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+h1{font-size:22px;margin:8px 0 14px;color:var(--navy)}h2{font-size:17px;margin:18px 0 10px}
+.fieldlabel{font-size:12px;font-weight:750;color:#526178;display:block;margin:12px 0 6px}
+input,select{width:100%;border:1px solid #dce4eb;border-radius:12px;background:white;padding:13px 12px;font-size:15px;color:#18283f;outline:none}
+input:focus,select:focus{border-color:#27845a;box-shadow:0 0 0 3px #27845a18}
+.row{display:flex;gap:8px}.row>*{flex:1;min-width:0}
+.pills{display:flex;gap:7px;overflow:auto;padding:2px 0 8px}.pill{border:1px solid #dce4eb;border-radius:30px;background:white;padding:9px 14px;white-space:nowrap;font-weight:650;color:#526178}.pill.active{background:var(--navy);color:white;border-color:var(--navy)}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:14px;margin:9px 0;box-shadow:0 2px 8px #152b4608}
+.storetop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.storename{font-size:15px;font-weight:800;color:var(--navy)}.sub{font-size:12px;color:var(--muted);margin-top:4px}.heart{border:0;background:transparent;font-size:25px;padding:0 2px}.crowd{font-size:13px;font-weight:750;margin-top:9px}.small{font-size:11px;color:var(--muted)}
+.btn{border:0;background:var(--green);color:white;border-radius:12px;padding:13px 16px;font-size:14px;font-weight:750;width:100%;margin-top:10px}.btn.secondary{background:#eaf1ed;color:#176b45}.btn.dark{background:var(--navy)}
+.levels{display:grid;grid-template-columns:1fr 1fr;gap:9px}.level{background:white;border:1px solid var(--line);border-radius:14px;padding:15px 10px;text-align:left;font-size:14px;font-weight:750;color:#25364e}.level.selected{border:2px solid var(--green);background:#f0f8f3}.level small{display:block;color:var(--muted);font-weight:500;margin-top:4px}
+.statbox{background:#eaf4ef;border-radius:16px;padding:16px;margin-bottom:14px}.statbox strong{font-size:22px;color:#176b45}.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.badgecard{background:white;border:1px solid var(--line);border-radius:14px;padding:13px 6px;text-align:center;min-height:90px}.badgeicon{font-size:29px}.badgecard small{display:block;color:var(--muted);font-size:11px;margin-top:5px}.badgepick{border:1px solid var(--line);background:white;border-radius:13px;padding:11px 8px;text-align:center;min-width:75px}.badgepick.on{border:2px solid var(--green);background:#eff8f2}.badgepick:active,.level:active,.tab:active{transform:scale(.98)}.badgepick .badgeicon{display:block}.badgepick small{font-size:10px;color:var(--muted)}
+.profile{text-align:center;background:white;border:1px solid var(--line);border-radius:18px;padding:24px}.avatar{font-size:42px}.publicbadges{display:flex;justify-content:center;gap:12px;font-size:31px;margin-top:15px;min-height:40px}
+.empty{text-align:center;padding:25px 15px;color:var(--muted);background:white;border-radius:14px;font-size:14px}
+.notice{background:#fff8e7;border:1px solid #f3e1ad;border-radius:12px;padding:11px;font-size:11px;line-height:1.45;color:#70551c;margin-top:14px}
+footer{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;border-top:1px solid var(--line);padding:9px 12px calc(9px + env(safe-area-inset-bottom));text-align:center;color:#8a98a9;font-size:9px;letter-spacing:.7px;z-index:4}
+.toast{position:fixed;bottom:75px;left:50%;transform:translateX(-50%);background:#172b4d;color:white;padding:12px 17px;border-radius:25px;font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:9;white-space:nowrap}.toast.show{opacity:1}
+@media(min-width:600px){main{padding-top:22px}.tabs{gap:9px}.tab{font-size:12px}}
+</style>
+</head>
+<body>
+<header><div class="brandrow"><div><div class="brand">FouleZen</div><div class="tagline">Les courses sans la foule</div></div><div class="cart">🛒</div></div></header>
+<main>
+<nav class="tabs" aria-label="Navigation">
+<button class="tab active" data-tab="search"><span>🗺️</span>Carte</button>
+<button class="tab" data-tab="favorites"><span>❤️</span>Favoris</button>
+<button class="tab" data-tab="report"><span>📣</span>Signaler</button>
+<button class="tab" data-tab="collection"><span>🏆</span>Collection</button>
+<button class="tab" data-tab="profile"><span>👤</span>Profil</button>
+</nav>
+<noscript><div class="notice">Active JavaScript dans Safari pour utiliser les onglets et les boutons.</div></noscript><section id="search">
+<h1>Magasins autour de moi</h1><div class="card"><b>📍 Recherche automatique</b><div class="sub" id="locationstatus">Demande de votre position…</div><button class="btn secondary" id="locatebtn">Actualiser ma position</button><button class="btn dark" id="manualbtn">Rechercher partout</button><div class="small">Magasins référencés sur OpenStreetMap dans un rayon de 10 km. Autorise la localisation dans Safari. Tu peux aussi rechercher une ville.</div></div>
+<label class="fieldlabel" for="query">Enseigne ou nom du magasin</label><input id="query" placeholder="Ville ou magasin : Sarcelles, Carrefour, Lidl…">
+<label class="fieldlabel" for="department">Département</label><select id="department"><option value="Tous">Tous les départements</option><option value="75">75 — Paris</option><option value="77">77 — Seine-et-Marne</option><option value="78">78 — Yvelines</option><option value="91">91 — Essonne</option><option value="92">92 — Hauts-de-Seine</option><option value="93">93 — Seine-Saint-Denis</option><option value="94">94 — Val-de-Marne</option><option value="95" selected>95 — Val-d'Oise</option></select>
+<button class="btn secondary" id="citybtn">Rechercher cette ville</button><div class="small" style="margin:6px 0 10px">Saisis une ville puis appuie sur le bouton, ou cherche une enseigne parmi les magasins chargés.</div>
+<p class="small" id="resultcount"></p><div id="storelist"></div>
+<div class="notice">Les magasins chargés depuis OpenStreetMap peuvent être incomplets. Si le service est indisponible, des magasins de démonstration apparaissent. Les niveaux d’affluence et signalements restent enregistrés sur cet appareil.</div>
+</section>
+<section id="favorites" hidden><h1>Mes magasins favoris ❤️</h1><div id="favoritelist"></div></section>
+<section id="report" hidden><h1>Signaler l'affluence</h1><div class="card"><div class="small">MAGASIN SÉLECTIONNÉ</div><div class="storename" id="selectedname">Carrefour Sarcelles</div><label class="fieldlabel" for="reportstore">Choisir un magasin</label><select id="reportstore"></select></div><h2>Combien y a-t-il de monde ?</h2><div class="levels" id="levelbuttons"></div><button class="btn" id="sendreport">Envoyer mon signalement</button><div class="small" style="margin-top:10px">Merci de signaler la situation réelle. Les signalements abusifs peuvent être écartés.</div></section>
+<section id="collection" hidden><h1>Ma collection 🏆</h1><div class="statbox"><div class="small">TON NIVEAU</div><strong id="rank">🥉 Explorateur</strong><div class="sub" id="points">0 points · 0 signalement</div></div><h2>Émoticônes débloquées</h2><div class="badges" id="badgegrid"></div><h2>Choisis jusqu'à 5 émoticônes à afficher</h2><div class="pills" id="badgechoices"></div><div class="small">Les autres membres ne verront que les émoticônes que tu as choisies d'afficher.</div></section>
+<section id="profile" hidden><h1>Mon profil public</h1><div class="profile"><div class="avatar">👤</div><div class="storename" style="margin-top:7px">Membre FouleZen</div><div class="sub">Mes émoticônes affichées</div><div class="publicbadges" id="publicbadges"></div></div><div class="notice">Ta collection complète reste privée. Seules les émoticônes que tu sélectionnes dans l'onglet Collection sont visibles sur ton profil.</div></section>
+</main>
+<footer>FOULEZEN · VERSION DE TEST · MAGASINS OPENSTREETMAP</footer><div class="toast" id="toast"></div>
+<script>
+const stores=[
+ {id:"demo-1",name:"Carrefour Sarcelles (démo)",brand:"Carrefour",city:"Sarcelles",dep:"95",lat:48.995,lon:2.379,level:"Modéré",wait:"5–10 min",address:"Adresse indicative"},
+ {id:"demo-2",name:"E.Leclerc Gonesse (démo)",brand:"E.Leclerc",city:"Gonesse",dep:"95",lat:48.986,lon:2.448,level:"Calme",wait:"0–5 min",address:"Adresse indicative"},
+ {id:"demo-3",name:"Lidl Sarcelles (démo)",brand:"Lidl",city:"Sarcelles",dep:"95",lat:48.997,lon:2.382,level:"Fréquenté",wait:"10–20 min",address:"Adresse indicative"},
+ {id:"demo-4",name:"Auchan Aéroville (démo)",brand:"Auchan",city:"Tremblay-en-France",dep:"93",lat:48.993,lon:2.516,level:"Bondé",wait:"20 min et +",address:"Adresse indicative"},
+ {id:"demo-5",name:"Intermarché Enghien (démo)",brand:"Intermarché",city:"Enghien-les-Bains",dep:"95",lat:48.971,lon:2.308,level:"Modéré",wait:"5–10 min",address:"Adresse indicative"},
+ {id:"demo-6",name:"Carrefour Paris (démo)",brand:"Carrefour",city:"Paris",dep:"75",lat:48.8566,lon:2.3522,level:"Calme",wait:"0–5 min",address:"Adresse indicative"},
+ {id:"demo-7",name:"E.Leclerc Clichy (démo)",brand:"E.Leclerc",city:"Clichy-sous-Bois",dep:"93",lat:48.91,lon:2.545,level:"Fréquenté",wait:"10–20 min",address:"Adresse indicative"},
+ {id:"demo-8",name:"Lidl Argenteuil (démo)",brand:"Lidl",city:"Argenteuil",dep:"95",lat:48.947,lon:2.247,level:"Modéré",wait:"5–10 min",address:"Adresse indicative"}
+];
+const meta={Calme:["🟢","#16834a","0–5 min"],Modéré:["🟡","#a87908","5–10 min"],Fréquenté:["🟠","#d97706","10–20 min"],Bondé:["🔴","#c2413b","20 min et +"]};
+const badgeNames={"🛒":"Premier panier","👀":"Observateur","🦸":"Super client","🔥":"Série active","💎":"Diamant","👑":"Légende","🌟":"Étoile","🎯":"Précis"};
+const unlocked=["🛒","👀"];
+// Safari peut bloquer localStorage quand le fichier est ouvert directement.
+const safeStorage={getItem(k){try{return window.localStorage.getItem(k)}catch(e){return null}},setItem(k,v){try{window.localStorage.setItem(k,v)}catch(e){}}};
+let favorites=JSON.parse(safeStorage.getItem("aff_favs")||'["demo-1","demo-2"]');
+let displayed=JSON.parse(safeStorage.getItem("aff_display")||'["🛒","👀"]');
+let reportCount=Number(safeStorage.getItem("aff_reports")||0);
+let localReports=JSON.parse(safeStorage.getItem("aff_local_reports")||"{}");
+let selectedId="",selectedLevel="Modéré",userPosition=null,searchCenter=null,locationMode=true,loading=false;
+const $=id=>document.getElementById(id);
+function save(){
+ safeStorage.setItem("aff_favs",JSON.stringify(favorites));
+ safeStorage.setItem("aff_display",JSON.stringify(displayed));
+ safeStorage.setItem("aff_reports",String(reportCount));
+ safeStorage.setItem("aff_local_reports",JSON.stringify(localReports));
+}
+function toast(msg){$("toast").textContent=msg;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2400)}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function distanceKm(a,b){const R=6371,r=x=>x*Math.PI/180,d1=r(b.lat-a.lat),d2=r(b.lon-a.lon),v=Math.sin(d1/2)**2+Math.cos(r(a.lat))*Math.cos(r(b.lat))*Math.sin(d2/2)**2;return 2*R*Math.asin(Math.sqrt(v))}
+function storeLevel(s){return localReports[s.id]?.level||s.level||"Modéré"}
+function storeWait(s){return localReports[s.id]?.wait||s.wait||meta[storeLevel(s)][2]}
+function card(s){
+ const level=storeLevel(s),m=meta[level]||meta.Modéré;
+ const dist=searchCenter&&Number.isFinite(s.lat)?distanceKm(searchCenter,s).toFixed(1)+" km":"";
+ const address=[s.address,s.city].filter(Boolean).join(", ");
+ return `<article class="card"><div class="storetop"><div><div class="storename">${esc(s.name)}</div><div class="sub">${esc(address||s.city||"Adresse non renseignée")}${s.dep?" · "+esc(s.dep):""}${dist?" · "+dist:""}</div><div class="crowd" style="color:${m[1]}">${m[0]} ${esc(level)} · Caisse : ${esc(storeWait(s))}</div><div class="small">Source : OpenStreetMap · Affluence non vérifiée en temps réel</div></div><button class="heart" aria-label="Ajouter aux favoris" data-action="favorite" data-id="${esc(s.id)}">${favorites.includes(s.id)?"❤️":"♡"}</button></div><button class="btn secondary" data-action="choose-store" data-id="${esc(s.id)}">Signaler ce magasin</button></article>`;
+}
+function filtered(){
+ let q=$("query").value.trim().toLowerCase(),d=$("department").value;
+ return stores.filter(s=>(d==="Tous"||s.dep===d)&&(!q||(s.name+" "+s.brand+" "+s.city+" "+s.dep+" "+s.address).toLowerCase().includes(q))&&(!locationMode||!searchCenter||!Number.isFinite(s.lat)||distanceKm(searchCenter,s)<=10))
+ .sort((a,b)=>searchCenter&&Number.isFinite(a.lat)&&Number.isFinite(b.lat)?distanceKm(searchCenter,a)-distanceKm(searchCenter,b):0);
+}
+function renderSearch(){
+ const a=filtered();
+ $("resultcount").textContent=loading?"Recherche des magasins…":`${a.length} magasin(s) trouvé(s)`;
+ $("storelist").innerHTML=loading?'<div class="empty">Recherche des magasins à proximité…</div>':a.length?a.map(card).join(""):'<div class="empty">Aucun magasin trouvé dans cette zone. Essaie une autre ville ou élargis ta recherche.</div>';
+}
+function renderFav(){
+ let a=stores.filter(s=>favorites.includes(s.id));
+ $("favoritelist").innerHTML=a.length?a.map(card).join(""):'<div class="empty">Aucun favori chargé. Recherche d’abord un magasin puis ajoute-le avec le cœur.</div>';
+}
+function toggleFav(id){
+ favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];
+ save();renderSearch();renderFav();toast(favorites.includes(id)?"Magasin ajouté aux favoris ❤️":"Magasin retiré des favoris");
+}
+function chooseStore(id){
+ selectedId=id;$("reportstore").value=id;
+ const s=stores.find(x=>x.id===id);$("selectedname").textContent=s?s.name:"Magasin sélectionné";
+ showTab("report");
+}
+function renderReport(){
+ $("reportstore").innerHTML=stores.map(s=>`<option value="${esc(s.id)}">${esc(s.name)} — ${esc(s.city||s.address||"")}</option>`).join("");
+ if(!stores.length){$("reportstore").innerHTML='<option value="">Aucun magasin chargé</option>';$("selectedname").textContent="Recherche d’abord un magasin";$("sendreport").disabled=true;}
+ else{$("sendreport").disabled=false;if(!stores.some(s=>s.id===selectedId))selectedId=stores[0].id;$("reportstore").value=selectedId;$("selectedname").textContent=stores.find(s=>s.id===selectedId)?.name||"";}
+ $("levelbuttons").innerHTML=Object.keys(meta).map(l=>`<button class="level ${selectedLevel===l?"selected":""}" data-action="choose-level" data-level="${l}">${meta[l][0]} ${l}<small>Attente indicative : ${meta[l][2]}</small></button>`).join("");
+}
+function renderCollection(){
+ let all=unlocked.slice();if(reportCount>=3&&!all.includes("🔥"))all.push("🔥");if(reportCount>=10&&!all.includes("💎"))all.push("💎");if(reportCount>=25&&!all.includes("👑"))all.push("👑");
+ $("points").textContent=`${reportCount*10} points · ${reportCount} signalement(s)`;
+ $("rank").textContent=reportCount>=25?"👑 Légende":reportCount>=10?"💎 Confirmé":"🥉 Explorateur";
+ $("badgegrid").innerHTML=Object.entries(badgeNames).map(([b,n])=>`<div class="badgecard"><div class="badgeicon">${all.includes(b)?b:"🔒"}</div><small>${n}</small></div>`).join("");
+ $("badgechoices").innerHTML=all.map(b=>`<button class="badgepick ${displayed.includes(b)?"on":""}" data-action="toggle-badge" data-badge="${b}"><span class="badgeicon">${b}</span><small>${displayed.includes(b)?"Affichée":"Masquée"}</small></button>`).join("");
+ $("publicbadges").innerHTML=displayed.map(b=>`<span>${b}</span>`).join("")||'<span class="small">Aucune émoticône affichée</span>';
+}
+function toggleDisplay(b){
+ if(displayed.includes(b))displayed=displayed.filter(x=>x!==b);
+ else if(displayed.length<5)displayed.push(b);
+ else{toast("Tu peux afficher 5 émoticônes maximum");return}
+ save();renderCollection();
+}
+function showTab(tab){
+ document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+ ["search","favorites","report","collection","profile"].forEach(x=>$(x).hidden=x!==tab);
+ if(tab==="favorites")renderFav();if(tab==="report")renderReport();if(tab==="collection"||tab==="profile")renderCollection();
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+async function fetchOverpass(center,radius=10000){
+ const [lat,lon]=[center.lat,center.lon];
+ const query=`[out:json][timeout:25];(node(around:${radius},${lat},${lon})["shop"~"supermarket|convenience|department_store"];way(around:${radius},${lat},${lon})["shop"~"supermarket|convenience|department_store"];relation(around:${radius},${lat},${lon})["shop"~"supermarket|convenience|department_store"];);out center tags;`;
+ const endpoints=["https://overpass-api.de/api/interpreter","https://overpass.kumi.systems/api/interpreter"];
+ let data=null,lastError=null;
+ for(const endpoint of endpoints){
+  try{const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},body:"data="+encodeURIComponent(query)});if(!response.ok)throw new Error("Service cartographique indisponible");data=await response.json();break;}
+  catch(e){lastError=e;}
+ }
+ if(!data)throw lastError||new Error("Impossible de joindre OpenStreetMap");
+ const mapped=(data.elements||[]).map(el=>{
+  const t=el.tags||{},lat0=el.lat??el.center?.lat,lon0=el.lon??el.center?.lon;
+  if(!Number.isFinite(lat0)||!Number.isFinite(lon0))return null;
+  const name=t.name||t.brand||t.operator||"Magasin sans nom";
+  const brand=t.brand||t.operator||"";
+  const postcode=t["addr:postcode"]||"";
+  return {id:`osm-${el.type}-${el.id}`,name,brand,lat:lat0,lon:lon0,city:t["addr:city"]||t["addr:town"]||t["addr:village"]||"",dep:postcode.slice(0,2),address:[t["addr:housenumber"],t["addr:street"]].filter(Boolean).join(" "),level:"Modéré",wait:"5–10 min",osmUrl:`https://www.openstreetmap.org/${el.type}/${el.id}`};
+ }).filter(Boolean);
+ const unique=new Map();mapped.forEach(s=>{if(!unique.has(s.id))unique.set(s.id,s)});
+ return [...unique.values()];
+}
+async function loadAround(center,label){
+ loading=true;searchCenter=center;locationMode=true;renderSearch();
+ $("locationstatus").textContent=`Recherche des magasins autour de ${label}…`;
+ try{
+  const found=await fetchOverpass(center,10000);
+  stores.splice(0,stores.length,...found);
+  $("locationstatus").textContent=`${found.length} magasin(s) référencé(s) dans un rayon de 10 km autour de ${label}`;
+  if(!selectedId&&stores.length)selectedId=stores[0].id;
+  renderSearch();renderFav();renderReport();
+ }catch(e){
+  $("locationstatus").textContent="Service cartographique indisponible · affichage des magasins de démonstration";
+  // Keep the demo catalogue so tabs, favourites and reports remain usable.
+  renderFav();renderReport();renderCollection();
+ }finally{loading=false;renderSearch();}
+}
+async function locateUser(){
+ if(!navigator.geolocation){$("locationstatus").textContent="Géolocalisation indisponible. Recherche une ville.";locationMode=false;return;}
+ $("locationstatus").textContent="Recherche de votre position…";
+ navigator.geolocation.getCurrentPosition(async pos=>{
+  userPosition={lat:pos.coords.latitude,lon:pos.coords.longitude};
+  await loadAround(userPosition,"ta position");
+ },err=>{
+  $("locationstatus").textContent="Position refusée ou indisponible · recherche par ville possible";
+  locationMode=false;searchCenter=null;renderSearch();
+ },{enableHighAccuracy:false,timeout:12000,maximumAge:300000});
+}
+async function searchCity(){
+ const q=$("query").value.trim();
+ if(!q){toast("Saisis d’abord une ville");return;}
+ $("locationstatus").textContent="Recherche de la ville…";loading=true;renderSearch();
+ try{
+  const url="https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&country=France&q="+encodeURIComponent(q);
+  const r=await fetch(url,{headers:{"Accept":"application/json"}});
+  if(!r.ok)throw new Error("Géocodage indisponible");
+  const results=await r.json();
+  if(!results.length)throw new Error("Ville introuvable");
+  const place=results[0],center={lat:Number(place.lat),lon:Number(place.lon)};
+  if(!Number.isFinite(center.lat)||!Number.isFinite(center.lon))throw new Error("Coordonnées invalides");
+  loading=false;await loadAround(center,place.display_name.split(",")[0]);
+ }catch(e){loading=false;$("locationstatus").textContent=e.message==="Ville introuvable"?"Ville introuvable. Vérifie l’orthographe.":"Recherche de ville momentanément indisponible.";renderSearch();}
+}
+document.addEventListener("click",e=>{
+ const target=e.target.closest("button");if(!target)return;
+ if(target.dataset.tab){showTab(target.dataset.tab);return;}
+ const action=target.dataset.action;
+ if(action==="favorite"){toggleFav(target.dataset.id);return;}
+ if(action==="choose-store"){chooseStore(target.dataset.id);return;}
+ if(action==="choose-level"){selectedLevel=target.dataset.level;renderReport();return;}
+ if(action==="toggle-badge"){toggleDisplay(target.dataset.badge);return;}
+});
+$("query").addEventListener("input",()=>{renderSearch();});
+$("citybtn").addEventListener("click",searchCity);
+$("department").addEventListener("change",renderSearch);
+$("reportstore").addEventListener("change",e=>{
+ selectedId=e.target.value;const s=stores.find(x=>x.id===selectedId);$("selectedname").textContent=s?.name||"";
+});
+$("sendreport").addEventListener("click",()=>{
+ const s=stores.find(x=>x.id===selectedId);if(!s){toast("Choisis d’abord un magasin");return;}
+ localReports[s.id]={level:selectedLevel,wait:meta[selectedLevel][2],updatedAt:Date.now()};
+ reportCount++;save();renderSearch();renderFav();renderCollection();renderReport();
+ toast("Merci ! Ton signalement est enregistré sur cet appareil.");
+});
+$("locatebtn").addEventListener("click",locateUser);
+$("manualbtn").addEventListener("click",()=>{
+ locationMode=false;searchCenter=null;
+ $("locationstatus").textContent="Mode recherche manuelle : saisis une ville puis appuie sur « Rechercher cette ville ».";
+ renderSearch();
+});
+renderSearch();renderFav();renderReport();renderCollection();locateUser();
+</script>
+</body></html>
